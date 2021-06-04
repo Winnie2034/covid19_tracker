@@ -15,6 +15,16 @@ function App() {
 
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState('worldwide');
+  const [countryInfo, setCountryInfo] = useState({});
+
+
+  useEffect(() => {
+    fetch('https://disease.sh/v3/covid-19/all')
+      .then(response => response.json())
+      .then(data => {
+        setCountryInfo(data);
+      });
+  }, []);
 
   //useeffect is a react hook
   //which runs a code based on a certain condition
@@ -44,8 +54,19 @@ function App() {
   const onCountryChange = async (event) => {
     const countryCode = event.target.value;
     // console.log(countryCode);
-    setCountry(countryCode);
-  }
+
+    const url = countryCode === 'worldwide' ? 'https://disease.sh/v3/covid-19/all'
+      : `https://disease.sh/v3/covid-19/countries/${countryCode}`
+
+    await fetch(url).then(response => response.json())
+      .then(data => {
+        setCountry(countryCode);
+        setCountryInfo(data);
+      });
+
+  };
+
+  // console.log(countryInfo);
 
   return (
     <div className="app"> {/* bemn naming convention */}
@@ -79,11 +100,11 @@ function App() {
 
         <div className="app__stats">
 
-          <InfoBox title="CoronaVirus Cases" total={2000} cases={123} />
+          <InfoBox title="CoronaVirus Cases" total={countryInfo.cases} cases={countryInfo.todayCases} />
 
-          <InfoBox title="Recovered" total={3000} cases={124} />
+          <InfoBox title="Recovered" total={countryInfo.recovered} cases={countryInfo.todayRecovered} />
 
-          <InfoBox title="Deaths" total={4000} cases={12345} />
+          <InfoBox title="Deaths" total={countryInfo.deaths} cases={countryInfo.todayDeaths} />
 
         </div>
 
