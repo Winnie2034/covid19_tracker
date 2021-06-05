@@ -9,13 +9,16 @@ import {
 import './App.css';
 import InfoBox from './InfoBox';
 import Map from './Map';
+import Table from './Table';
+import { sortData } from './util';
 
 
 function App() {
 
-  const [countries, setCountries] = useState([]);
-  const [country, setCountry] = useState('worldwide');
-  const [countryInfo, setCountryInfo] = useState({});
+  const [countries, setCountries] = useState([]); //list of countries in dropdown
+  const [country, setCountry] = useState('worldwide'); //selected country from dropdown
+  const [countryInfo, setCountryInfo] = useState({}); //displaying cases of the selected country
+  const [tableData, setTableData] = useState([]); //displaying table of all countries
 
 
   useEffect(() => {
@@ -43,9 +46,14 @@ function App() {
             }
           ));
 
+          const sortedData = sortData(data);
+
+          setTableData(sortedData);
           setCountries(countries);
 
+          // console.log(data);
         });
+
     };
 
     getCountriesData();
@@ -115,6 +123,7 @@ function App() {
         <CardContent>
           <h3>Live Cases by Country</h3>
           {/* Table */}
+          <Table countries={tableData} />
           <h3>Worldwide new cases</h3>
           {/* Graph */}
         </CardContent>
