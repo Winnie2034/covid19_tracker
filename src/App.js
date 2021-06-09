@@ -69,7 +69,7 @@ function App() {
 
   const onCountryChange = async (event) => {
     const countryCode = event.target.value;
-    // console.log(countryCode);
+    console.log(countryCode);
 
     const url = countryCode === 'worldwide' ? 'https://disease.sh/v3/covid-19/all'
       : `https://disease.sh/v3/covid-19/countries/${countryCode}`
@@ -79,8 +79,15 @@ function App() {
         setCountry(countryCode);
         setCountryInfo(data);
 
-        setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
-        setMapZoom(4);
+        setMapCenter(() => {
+          if (countryCode === 'worldwide') {
+            return [34.80746, -40.4796];
+          }
+          else {
+            return [data.countryInfo.lat, data.countryInfo.long];
+          }
+        });
+        setMapZoom(3);
       });
 
   };
