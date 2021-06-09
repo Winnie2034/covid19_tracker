@@ -13,13 +13,13 @@ const casesTypeColors = {
         hex: "#7dd71d",
         rgb: "rgb(125, 215, 29)",
         half_op: "rgba(125, 215, 29, 0.5)",
-        multiplier: 650,
+        multiplier: 500,
     },
     deaths: {
         hex: "#fb4443",
         rgb: "rgb(251, 68, 67)",
         half_op: "rgba(251, 68, 67, 0.5)",
-        multiplier: 1400,
+        multiplier: 750,
     },
 };
 
@@ -44,7 +44,7 @@ export const showDataOnMap = (data, casesType = "cases") => (
             <Popup>
                 <div className="info-container">
                     <div
-                    className="info-flag"
+                        className="info-flag"
                         style={{ backgroundImage: `url(${country.countryInfo.flag})` }}
                     />
                     <div className="info-name">{country.country}</div>
@@ -55,4 +55,6 @@ export const showDataOnMap = (data, casesType = "cases") => (
             </Popup>
         </Circle>
     ))
-)
+);
+
+export const prettyPrintStat = (stat) => stat ? `+${numeral(stat).format("0.0a")}` : "+0";
