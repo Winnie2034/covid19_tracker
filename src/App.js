@@ -101,6 +101,7 @@ function App() {
         <div className="app__header">
 
           <h1> Covid-19 TRACKER</h1>
+          <p style={{fontSize: "10px", color: "gray"}}>Created by: Winner Walecha</p>
           <FormControl className="app__dropdown">
             <Select
               variant="outlined"
